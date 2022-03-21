@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "querystorage:block/test_block" }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "querystorage:test_block"
+    }
+  ],
+  "result": {
+    "item": "querystorage:test_ingot",
+    "count": 9
+  }
+}

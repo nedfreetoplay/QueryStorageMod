@@ -1,0 +1,10 @@
+{
+  "item.querystorage.test_ingot": "Тестовый слиток",
+  "item.querystorage.dowsing_rod": "Биолокационный стержень",
+
+  "block.querystorage.test_block": "тестовый блок",
+
+  "itemGroup.querystorage.query_storage": "Query Storage",
+
+  "item.querystorage.dowsing_rod.no_valuables": "Ничего не найдено"
+}

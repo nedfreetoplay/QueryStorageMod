@@ -1,0 +1,12 @@
+{
+  "item.querystorage.test_ingot": "Test Ingot",
+  "item.querystorage.dowsing_rod": "Dowsing Rod",
+
+  "block.querystorage.test_block": "Test Block",
+
+  "itemGroup.querystorage.query_storage": "Query Storage",
+
+  "item.querystorage.dowsing_rod.no_valuables": "No Valuables found",
+  "item.querystorage.dowsing_rod.tooltip.shift": "Rught Click to find valubles",
+  "item.querystorage.dowsing_rod.tooltip": "Press SHIFT for more Information"
+}
