@@ -14,12 +14,15 @@
   },
 
   "license": "MIT",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/querystorage/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
       "ru.nedfreetoplay.querystorage.QueryStorage"
+    ],
+    "client": [
+      "ru.nedfreetoplay.querystorage.client.ClientQueryStorage"
     ]
   },
   "mixins": [

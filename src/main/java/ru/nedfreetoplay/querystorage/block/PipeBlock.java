@@ -1,45 +1,43 @@
 package ru.nedfreetoplay.querystorage.block;
 
-import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
-import ru.nedfreetoplay.querystorage.block.custom.PipeBlockEntity;
+import ru.nedfreetoplay.querystorage.block.help.ItemInPipe;
 
-public class PipeBlock extends AbstractPipeBlock implements BlockEntityProvider {
+public class PipeBlock extends AbstractPipeBlock {
     public PipeBlock(Settings settings) {
         super(settings);
     }
 
     @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        if (world.isClient) {
+            return ActionResult.SUCCESS;
+        }
+        this.openScreen(world, pos, player);
+
+        ItemStack itemStack = player.getStackInHand(hand);
+        if(!itemStack.isEmpty())
+        {
+            player.sendMessage(Text.of(itemStack.getTranslationKey() + " Добавлен в трубу"), false);
+            items.add(new ItemInPipe(itemStack));
+        }
+
+        return ActionResult.CONSUME;
+    }
+
     protected void openScreen(World var1, BlockPos var2, PlayerEntity var3) {
 
     }
 
 
-    //Создаем BlockEntity для хранения значений внутри блока
-    //Метод интерфейса BlockEntityProvider
-    @Nullable
-    @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new PipeBlockEntity(pos, state);
-    }
-
-    //Метод интерфейса BlockEntityProvider
-    /*@Override
-    @Nullable
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return PipeBlock.checkType(world, type, BlockEntityType.FURNACE);
-    }*/
-
-    override
-
-    @Override
-    public BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
-    }
 
 
 }

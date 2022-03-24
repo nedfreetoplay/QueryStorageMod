@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "querystorage:block/pipe_block"
+    }
+  }
+}

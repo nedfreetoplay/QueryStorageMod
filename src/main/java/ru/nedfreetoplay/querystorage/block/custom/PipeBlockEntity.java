@@ -8,9 +8,13 @@ import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
+import ru.nedfreetoplay.querystorage.block.help.ItemInPipe;
 import ru.nedfreetoplay.querystorage.util.ModBlockEntity;
 
+import java.util.ArrayList;
+
 public class PipeBlockEntity extends BlockEntity {
+
 
     private int number = 7;
 
@@ -20,6 +24,7 @@ public class PipeBlockEntity extends BlockEntity {
 
     @Override
     protected void writeNbt(NbtCompound nbt) {
+
         nbt.putInt("number", number);
 
         super.writeNbt(nbt);
