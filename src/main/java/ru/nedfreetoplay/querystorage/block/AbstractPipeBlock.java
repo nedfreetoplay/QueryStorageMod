@@ -3,6 +3,8 @@ package ru.nedfreetoplay.querystorage.block;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,8 +18,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import ru.nedfreetoplay.querystorage.block.custom.PipeBlockEntity;
 import ru.nedfreetoplay.querystorage.block.help.ItemInPipe;
-
-import java.util.ArrayList;
+import ru.nedfreetoplay.querystorage.util.ModBlockEntity;
 
 //Этот класс на основе которого будут созданы блоки труб
 //По типу обычных транспортных до запросных.
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 public abstract class AbstractPipeBlock extends BlockWithEntity implements BlockEntityProvider {
 
     //Перенести предметы в PipeBlockEntity!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    ArrayList<ItemInPipe> items;
+
 
     //Здесь должен быть типа массива содержащего подключение трубы к соседним блокам по всем сторонам света
     //Так же здесь должен быть коллекция структур предметов который будет передаваться по трубам.
@@ -47,6 +48,7 @@ public abstract class AbstractPipeBlock extends BlockWithEntity implements Block
             .with(Properties.EAST, false)
             .with(Properties.SOUTH, false)
             .with(Properties.WEST, false));
+        //this.items = new ArrayList<>();
         //Метод из AbstractFurnaceBlock чтобы не забыть
         //this.setDefaultState((BlockState)((BlockState)((BlockState)this.stateManager.getDefaultState()).with(FACING, Direction.NORTH)).with(LIT, false));
         //items = new ArrayList<>();
@@ -105,14 +107,22 @@ public abstract class AbstractPipeBlock extends BlockWithEntity implements Block
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         if (!world.isClient())
         {
-            player.sendMessage(Text.of("Выпали предметы:"), false);
-            for (ItemInPipe item:
-                 items) {
-                player.sendMessage(Text.of(item.toString()), false);
-                world.spawnEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), item.itemStack));
+
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if(blockEntity instanceof PipeBlockEntity) {
+                PipeBlockEntity pipeBlockEntity = (PipeBlockEntity) blockEntity;
+                player.sendMessage(Text.of("Выпали предметы:"), false);
+                for (ItemInPipe item : pipeBlockEntity.inventory) {
+                    //Проверка на пустоту
+                    if(!item.isEmpty()) {
+                        player.sendMessage(Text.of(item.itemStack.toString()), false);
+                        world.spawnEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), item.itemStack));
+                    }
+                }
             }
         }
         super.onBreak(world, pos, state, player);
+
     }
 
     //Создаем BlockEntity для хранения значений внутри блока
@@ -129,6 +139,11 @@ public abstract class AbstractPipeBlock extends BlockWithEntity implements Block
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         return PipeBlock.checkType(world, type, BlockEntityType.FURNACE);
     }*/
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return AbstractPipeBlock.checkType(type, ModBlockEntity.PIPE_BLOCK_ENTITY, (world1, pos, state1, pipeBlockEntity) -> PipeBlockEntity.tick(world1, pos, state1, (PipeBlockEntity) pipeBlockEntity));
+    }
 
     /*
     * Добавить метод обработки предметов попавших в зону влияния трубы, хотя это будет для всасывающей трубы.
