@@ -1,4 +1,4 @@
-package ru.nedfreetoplay.querystorage.client;
+package ru.nedfreetoplay.querystorage.client.model;
 
 import com.mojang.datafixers.util.Pair;
 import net.fabricmc.api.EnvType;

@@ -9,6 +9,7 @@ import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import ru.nedfreetoplay.querystorage.QueryStorage;
+import ru.nedfreetoplay.querystorage.client.model.PipeModel;
 
 @Environment(EnvType.CLIENT)
 public class ModelProvider implements ModelResourceProvider {
